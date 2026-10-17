@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-labelledby="title description">
+  <title id="title">안성원 프로필 사진 자리</title>
+  <desc id="description">회색 배경 위 사람 모양의 기본 프로필 이미지</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eef0f3"/>
+      <stop offset="1" stop-color="#cbd0d8"/>
+    </linearGradient>
+    <linearGradient id="person" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#b4bac4"/>
+      <stop offset="1" stop-color="#9299a5"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#background)"/>
+  <circle cx="200" cy="142" r="64" fill="url(#person)"/>
+  <path d="M72 376c0-94 57-154 128-154s128 60 128 154Z" fill="url(#person)"/>
+</svg>

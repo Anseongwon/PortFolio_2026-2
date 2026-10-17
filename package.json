@@ -1,0 +1,29 @@
+{
+  "name": "my-portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "seed:guestbook-colors": "node scripts/seed-guestbook-room-colors.mjs",
+    "seed:guestbook-profiles": "node scripts/seed-guestbook-profiles.mjs"
+  },
+  "dependencies": {
+    "mongoose": "^9.11.2",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "tailwindcss": "^4",
+    "typescript": "latest"
+  }
+}
