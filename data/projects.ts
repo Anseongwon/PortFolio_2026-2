@@ -2,6 +2,56 @@ import type { Project } from "@/types/project";
 
 const projectItems: Project[] = [
   {
+    slug: "my-app",
+    title: "my-app",
+    summary:
+      "Next.js, React, MongoDB를 활용해 상품 게시, 공지사항, 사용자 인증 기능을 구현한 웹 개발 수업 실습 프로젝트입니다.",
+    type: "personal",
+    status: "in-progress",
+    startedAt: "2026-09-01",
+    period: "2026.09 - 2026.10",
+    role: "수업에서 학습한 내용을 바탕으로 전체 기능을 개인 구현",
+    techStack: ["Next.js", "React", "MongoDB", "GitHub"],
+    features: [
+      "상품 등록 및 목록 조회",
+      "좋아요 클릭 결과의 실시간 화면 반영",
+      "공지사항 작성 및 게시",
+      "회원가입과 로그인 기반 사용자 인증",
+    ],
+    learnings:
+      "인증과 인가의 차이, 세션과 JWT 기반 인증 흐름을 이해하고 MongoDB를 활용한 데이터 생성·조회·수정·삭제(CRUD)를 실습했습니다. 또한 사용자 동작에 따라 변경된 데이터를 화면에 즉시 반영하는 방법을 익혔습니다.",
+    thumbnail: "/images/projects/my-app/home.png",
+    gallery: [
+      {
+        src: "/images/projects/my-app/products.png",
+        title: "상품 목록 페이지",
+        alt: "상품명과 설명, 좋아요 수를 카드 목록으로 보여주는 my-app 상품 페이지",
+      },
+      {
+        src: "/images/projects/my-app/notices.png",
+        title: "공지사항 페이지",
+        alt: "작성자와 작성일을 포함한 공지사항 목록을 보여주는 my-app 공지사항 페이지",
+      },
+      {
+        src: "/images/projects/my-app/notice-create.png",
+        title: "새 공지 작성 페이지",
+        alt: "제목과 작성자, 내용을 입력해 공지사항을 등록하는 my-app 작성 페이지",
+      },
+      {
+        src: "/images/projects/my-app/login.png",
+        title: "로그인 페이지",
+        alt: "이메일과 비밀번호를 입력하는 my-app 로그인 페이지",
+      },
+      {
+        src: "/images/projects/my-app/register.png",
+        title: "회원가입 페이지",
+        alt: "이름과 이메일, 비밀번호를 입력하는 my-app 회원가입 페이지",
+      },
+    ],
+    githubUrl: "https://github.com/Anseongwon/my-app_2026-2",
+    demoUrl: "https://my-app2026-2.vercel.app/",
+  },
+  {
     slug: "neocore",
     title: "NeoCore",
     summary:

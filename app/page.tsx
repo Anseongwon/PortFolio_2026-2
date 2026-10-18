@@ -4,7 +4,6 @@ import ContactIcon from "@/components/home/ContactIcon";
 import ContactPromptButton from "@/components/home/ContactPromptButton";
 import EmailCopyButton from "@/components/home/EmailCopyButton";
 import SearchExperience from "@/components/home/SearchExperience";
-import AmbientBackground from "@/components/layout/AmbientBackground";
 import { contactLinks } from "@/data/profile";
 
 const quickLinks = [
@@ -24,8 +23,6 @@ export default function HomePage() {
 
   return (
     <main className="home-page flex min-h-[calc(100vh-146px)] items-center justify-center py-16 text-center max-md:min-h-[calc(100vh-122px)] max-md:py-12">
-      <AmbientBackground />
-
       <section className="relative z-1 w-full max-w-[960px]">
         <h1 className="home-title m-0 text-[68px] leading-none font-bold tracking-[-0.025em] text-[var(--text)] max-md:text-[46px]">
           Hi, im Seongwon

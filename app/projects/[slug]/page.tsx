@@ -102,7 +102,9 @@ export default async function ProjectDetailPage({
               <div>
                 <div className="project-case-title-row">
                   <h1>{project.title}</h1>
-                  <span>{projectTypeLabel[project.type]}</span>
+                  <span data-project-type={project.type}>
+                    {projectTypeLabel[project.type]}
+                  </span>
                 </div>
                 <p>{project.summary}</p>
               </div>

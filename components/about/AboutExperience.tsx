@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { type CSSProperties, useEffect, useRef, useState } from "react";
 
 import styles from "@/app/about/about.module.css";
@@ -208,11 +209,22 @@ export default function AboutExperience() {
   return (
     <div className={styles.content}>
       <section className={styles.profileCard} id="introduction">
-        <div className={styles.profileIdentity}>
-          <h2>안성원</h2>
-          <p className={styles.profileSummary}>
-            웹 개발과 정보보호를 배우며, 배운 내용을 실제 화면과 기능으로 구현하고 있습니다.
-          </p>
+        <div className={styles.profileIntro}>
+          <div className={styles.profilePortrait}>
+            <Image
+              alt="안성원 프로필"
+              height={160}
+              sizes="(max-width: 600px) 96px, 132px"
+              src="/images/profile/about-profile.jpg"
+              width={160}
+            />
+          </div>
+          <div className={styles.profileIdentity}>
+            <h2>안성원</h2>
+            <p className={styles.profileSummary}>
+              웹 개발과 정보보호를 배우며, 배운 내용을 실제 화면과 기능으로 구현하고 있습니다.
+            </p>
+          </div>
         </div>
         <dl className={styles.profileFacts}>
           <div>

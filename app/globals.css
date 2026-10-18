@@ -31,6 +31,23 @@
     inset 1px 1px 0 var(--nav-rim-bright),
     inset -1px -1px 0 var(--nav-rim-dark),
     inset 0 2px 5px var(--nav-glow);
+  --silk-background-primary:
+    radial-gradient(ellipse 78% 34% at 7% 18%, transparent 47%, rgb(181 185 190 / 30%) 51%, rgb(255 255 255 / 92%) 58%, transparent 66%),
+    radial-gradient(ellipse 72% 30% at 78% 6%, transparent 43%, rgb(180 184 190 / 26%) 49%, rgb(255 255 255 / 94%) 57%, transparent 67%),
+    radial-gradient(ellipse 58% 22% at 42% 24%, transparent 43%, rgb(166 171 178 / 23%) 49%, rgb(255 255 255 / 88%) 56%, transparent 65%),
+    radial-gradient(ellipse 92% 38% at 48% 58%, transparent 45%, rgb(165 170 177 / 28%) 50%, rgb(255 255 255 / 96%) 58%, transparent 68%),
+    radial-gradient(ellipse 62% 24% at 96% 43%, transparent 42%, rgb(155 161 169 / 24%) 48%, rgb(255 255 255 / 90%) 56%, transparent 66%),
+    radial-gradient(ellipse 76% 34% at 10% 92%, transparent 44%, rgb(174 179 185 / 28%) 50%, rgb(255 255 255 / 92%) 58%, transparent 68%),
+    radial-gradient(ellipse 66% 25% at 62% 88%, transparent 43%, rgb(160 166 174 / 24%) 49%, rgb(255 255 255 / 91%) 57%, transparent 67%),
+    linear-gradient(72deg, transparent 18%, rgb(153 159 168 / 12%) 34%, rgb(255 255 255 / 74%) 42%, transparent 54%),
+    linear-gradient(145deg, #ffffff 8%, #eef0f2 36%, #ffffff 58%, #e7e9ec 78%, #fafbfc 100%);
+  --silk-background-secondary:
+    radial-gradient(ellipse 64% 22% at 28% 38%, transparent 48%, rgb(117 123 132 / 13%) 53%, rgb(255 255 255 / 72%) 60%, transparent 69%),
+    radial-gradient(ellipse 56% 19% at 72% 25%, transparent 45%, rgb(117 123 132 / 12%) 51%, rgb(255 255 255 / 70%) 58%, transparent 67%),
+    radial-gradient(ellipse 76% 25% at 89% 72%, transparent 46%, rgb(126 132 140 / 14%) 52%, rgb(255 255 255 / 75%) 60%, transparent 70%),
+    radial-gradient(ellipse 58% 20% at 34% 82%, transparent 44%, rgb(121 127 136 / 13%) 50%, rgb(255 255 255 / 72%) 58%, transparent 68%),
+    linear-gradient(156deg, transparent 24%, rgb(132 138 146 / 12%) 38%, rgb(255 255 255 / 68%) 46%, transparent 59%),
+    linear-gradient(112deg, transparent 25%, rgb(255 255 255 / 72%) 40%, rgb(142 148 156 / 11%) 48%, transparent 63%);
 }
 
 [data-theme="dark"] {
@@ -109,6 +126,72 @@ a {
   position: relative;
   isolation: isolate;
   overflow-x: clip;
+}
+
+.home-page::before {
+  position: fixed;
+  z-index: 0;
+  inset: -14%;
+  content: "";
+  pointer-events: none;
+  background-color: #f8fafb;
+  background-image: var(--silk-background-primary);
+  background-size: 118% 118%;
+  filter: blur(1px);
+  transform: translate3d(-2%, -1%, 0) scale(1.04) rotate(-1deg);
+  will-change: transform;
+  animation: home-silk-drift 12s ease-in-out infinite alternate;
+}
+
+.home-page::after {
+  position: fixed;
+  z-index: 0;
+  inset: -18%;
+  content: "";
+  pointer-events: none;
+  background-image: var(--silk-background-secondary);
+  background-size: 112% 112%;
+  mix-blend-mode: multiply;
+  opacity: 0.8;
+  filter: blur(7px);
+  transform: translate3d(3%, 2%, 0) scale(1.08) rotate(1deg);
+  will-change: transform;
+  animation: home-silk-glide 16s ease-in-out infinite alternate-reverse;
+}
+
+[data-theme="dark"] .home-page::before {
+  background-color: var(--background);
+  filter: blur(1px) brightness(0.22) saturate(0.45);
+}
+
+[data-theme="dark"] .home-page::after {
+  filter: blur(7px) brightness(0.22) saturate(0.45);
+}
+
+@keyframes home-silk-drift {
+  0% {
+    transform: translate3d(-4%, -2%, 0) scale(1.04) rotate(-1.5deg);
+  }
+
+  50% {
+    transform: translate3d(4.5%, 3%, 0) scale(1.11) rotate(1.2deg);
+  }
+
+  100% {
+    transform: translate3d(-2%, 5%, 0) scale(1.07) rotate(-0.8deg);
+  }
+}
+
+@keyframes home-silk-glide {
+  0% {
+    opacity: 0.62;
+    transform: translate3d(5%, 3%, 0) scale(1.08) rotate(1.6deg);
+  }
+
+  100% {
+    opacity: 0.94;
+    transform: translate3d(-5%, -4%, 0) scale(1.15) rotate(-1.7deg);
+  }
 }
 
 .home-ambient {
@@ -942,6 +1025,11 @@ button.contact-dock-item {
   }
 
   .home-ambient-orb {
+    animation: none !important;
+  }
+
+  .home-page::before,
+  .home-page::after {
     animation: none !important;
   }
 }
@@ -3030,6 +3118,12 @@ body:has(.project-case-page) {
   text-shadow: none;
 }
 
+.projects-page .project-type-badge[data-project-type="personal"],
+.project-case-page .project-case-title-row > span[data-project-type="personal"] {
+  color: #5b1730;
+  background-color: #f2a9c1;
+}
+
 .projects-page .project-tech-list span,
 .project-case-page .project-case-tech-list span {
   border: 0;
@@ -3074,6 +3168,11 @@ body:has(.project-case-page) {
 .projects-page .project-tech-list span[data-tech="typescript"],
 .project-case-page .project-case-tech-list span[data-tech="typescript"] {
   background-color: #6096cf;
+}
+
+.projects-page .project-tech-list span[data-tech="github"],
+.project-case-page .project-case-tech-list span[data-tech="github"] {
+  border: 1px solid #111111;
 }
 
 /* Keep enough space and stacking for every side of the selected outline. */
@@ -3222,14 +3321,14 @@ body:has(.project-case-page) {
   box-shadow: none;
 }
 
-/* NeoCore screenshots fill their viewport so no black strip remains below them. */
-.project-case-page-neocore .project-gallery-card button,
-.project-case-page-neocore .project-gallery-modal-image {
+/* Project screenshots fill their viewport so no dark strip remains around them. */
+.project-case-page .project-gallery-card button,
+.project-case-page .project-gallery-modal-image {
   background: #ffffff;
 }
 
-.project-case-page-neocore .project-gallery-card img,
-.project-case-page-neocore .project-gallery-modal-image img {
+.project-case-page .project-gallery-card img,
+.project-case-page .project-gallery-modal-image img {
   object-fit: cover;
   object-position: center top;
 }
@@ -4627,6 +4726,12 @@ body:has(.guestbook-page) {
   background: var(--guestbook-room-color, #e8edf4);
 }
 
+[data-theme="light"] .guestbook-public-note,
+[data-theme="light"] .guestbook-thread-person time,
+[data-theme="light"] .guestbook-admin-message time {
+  color: #000000;
+}
+
 [data-theme="dark"] .guestbook-thread,
 [data-theme="dark"] .guestbook-thread-header,
 [data-theme="dark"] .guestbook-thread-scroll,
@@ -4868,4 +4973,41 @@ body:has(.guestbook-page) {
 
 [data-theme="dark"] .guestbook-tag-filters button {
   border-color: #484848;
+}
+
+/* Shared silk background for every page. */
+[data-theme="light"] body:has(.home-page),
+[data-theme="light"] body:has(.about-page),
+[data-theme="light"] body:has(.issues-page),
+[data-theme="light"] body:has(.projects-page),
+[data-theme="light"] body:has(.project-case-page),
+[data-theme="light"] body:has(.guestbook-page) {
+  background: #f8fafb;
+}
+
+body .site-content .home-ambient {
+  background-color: #f8fafb !important;
+  background-image: var(--silk-background-primary) !important;
+  background-size: 118% 118% !important;
+  filter: blur(1px);
+}
+
+body .site-content .home-ambient::after {
+  position: absolute;
+  inset: -18%;
+  content: "";
+  background-image: var(--silk-background-secondary);
+  background-size: 112% 112%;
+  mix-blend-mode: multiply;
+  opacity: 0.8;
+  filter: blur(7px);
+}
+
+body .site-content .home-ambient-orb {
+  display: none;
+}
+
+[data-theme="dark"] body .site-content .home-ambient {
+  background-color: var(--background) !important;
+  filter: blur(1px) brightness(0.22) saturate(0.45);
 }

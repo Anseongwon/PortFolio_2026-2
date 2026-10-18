@@ -309,7 +309,7 @@ export default function SearchExperience() {
       </form>
 
       <p className="mt-4 mb-0 text-sm text-[var(--muted)]">
-        사이트 내 공개된 소개, 프로젝트와 개발 기록을 검색합니다.
+        원하는 키워드로 포트폴리오를 탐색해보세요.
       </p>
 
       {isPanelOpen && query.trim() && (

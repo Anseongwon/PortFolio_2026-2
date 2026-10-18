@@ -100,7 +100,10 @@ export default function ProjectsPanel() {
         </div>
 
         <div className="project-preview-info">
-          <span className="project-type-badge">
+          <span
+            className="project-type-badge"
+            data-project-type={selectedProject.type}
+          >
             {projectTypeLabel[selectedProject.type]}
           </span>
 
