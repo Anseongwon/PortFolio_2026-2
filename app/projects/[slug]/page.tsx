@@ -118,12 +118,21 @@ export default async function ProjectDetailPage({
                     GitHub
                   </a>
                 )}
-                {project.demoUrl && (
+                {project.demoUrl ? (
                   <a className="project-case-demo" href={project.demoUrl} rel="noreferrer" target="_blank">
                     <span aria-hidden="true">●</span>
                     Live Demo
                   </a>
-                )}
+                ) : project.demoPending ? (
+                  <span
+                    aria-disabled="true"
+                    className="project-case-demo project-case-demo-pending"
+                    title="배포 링크 준비 중"
+                  >
+                    <span aria-hidden="true">●</span>
+                    Live Demo
+                  </span>
+                ) : null}
               </div>
             </div>
           </header>

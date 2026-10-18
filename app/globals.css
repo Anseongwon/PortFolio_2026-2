@@ -3241,6 +3241,35 @@ body:has(.project-case-page) {
   transform: none;
 }
 
+.project-case-page .project-case-actions .project-case-demo-pending,
+[data-theme] .project-case-page .project-case-actions .project-case-demo-pending {
+  min-height: 38px;
+  padding: 0 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid #172a52;
+  border-radius: 9px;
+  color: rgb(255 255 255 / 72%);
+  background-color: #172a52;
+  box-shadow: none;
+  font-size: 0.76rem;
+  font-weight: 800;
+  cursor: not-allowed;
+  opacity: 0.62;
+}
+
+.project-case-page .project-case-actions .project-case-demo-pending > span {
+  font-size: 0.55rem;
+}
+
+@media (max-width: 760px) {
+  .project-case-page .project-case-actions .project-case-demo-pending {
+    flex: 1;
+  }
+}
+
 /* Final project-page surface adjustments. */
 .projects-page,
 .project-case-page {

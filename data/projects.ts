@@ -150,10 +150,53 @@ const projectItems: Project[] = [
     status: "in-progress",
     startedAt: "2026-10-01",
     period: "2026.10 - 진행 중",
-    role: "백엔드 개발",
+    role:
+      "백엔드 개발 — 회원가입·로그인, 인증 미들웨어, 내 정보 및 지역 설정, 좋아요 API를 구현하고 핵심 기능 연동 이후 채팅 API 개발을 담당",
     techStack: ["HTML", "CSS", "Next.js", "React", "MongoDB"],
-    features: [],
+    features: [
+      "지역과 카테고리를 기준으로 상품을 탐색하는 중고 거래 목록",
+      "상품 이미지와 상세 정보를 입력하는 판매 등록",
+      "회원가입·로그인과 인증 미들웨어 기반 사용자 인증",
+      "내 정보 및 지역 설정과 상품 좋아요 기능",
+      "핵심 기능 연동 이후 사용자 간 채팅 API 개발",
+    ],
+    learnings:
+      "팀 프로젝트에서 회원가입과 로그인부터 인증 미들웨어, 사용자 정보·지역 설정, 좋아요 API까지 연결하며 백엔드 인증 흐름과 API 설계를 익혔습니다. 핵심 기능이 연결된 뒤에는 채팅 API를 맡아 기능 간 의존성을 조율하고 협업하는 과정을 경험했습니다.",
+    thumbnail: "/images/projects/marketplace/home.png",
+    gallery: [
+      {
+        src: "/images/projects/marketplace/market.png",
+        title: "중고 거래 페이지",
+        alt: "지역과 카테고리별 상품 카드 및 좋아요 기능을 제공하는 reown 중고 거래 페이지",
+      },
+      {
+        src: "/images/projects/marketplace/neighborhood.png",
+        title: "지역별 거래 페이지",
+        alt: "동네와 카테고리를 선택해 주변 상품을 탐색하는 reown 지역별 거래 페이지",
+      },
+      {
+        src: "/images/projects/marketplace/safe-trade.png",
+        title: "안전 거래 페이지",
+        alt: "안전한 중고 거래 원칙과 서비스를 소개하는 reown 안전 거래 페이지",
+      },
+      {
+        src: "/images/projects/marketplace/sell.png",
+        title: "판매 등록 페이지",
+        alt: "상품 사진과 카테고리, 가격 등의 정보를 입력하는 reown 판매 등록 페이지",
+      },
+      {
+        src: "/images/projects/marketplace/login.png",
+        title: "로그인 페이지",
+        alt: "이메일과 비밀번호로 인증하는 reown 로그인 페이지",
+      },
+      {
+        src: "/images/projects/marketplace/register.png",
+        title: "회원가입 페이지",
+        alt: "닉네임과 이메일, 비밀번호를 입력하는 reown 회원가입 페이지",
+      },
+    ],
     githubUrl: "https://github.com/anty9915-sudo/reown",
+    demoPending: true,
   },
 ];
 

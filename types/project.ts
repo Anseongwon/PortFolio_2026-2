@@ -19,4 +19,5 @@ export type Project = {
   }>;
   githubUrl?: string;
   demoUrl?: string;
+  demoPending?: boolean;
 };
