@@ -3,10 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import AmbientBackground from "@/components/layout/AmbientBackground";
+import PageShell from "@/components/layout/PageShell";
 import ProjectGallery from "@/components/projects/ProjectGallery";
 import { projects } from "@/data/projects";
 import { projectStatusLabel, projectTypeLabel } from "@/lib/project-labels";
+import { getProjectBySlug } from "@/lib/projects";
 
 type ProjectDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -21,16 +22,14 @@ const sectionLinks = [
 ];
 
 export function generateStaticParams() {
-  return projects.map((project) => ({
-    slug: project.slug,
-  }));
+  return projects.map((project) => ({ slug: project.slug }));
 }
 
 export async function generateMetadata({
   params,
 }: ProjectDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const project = projects.find((item) => item.slug === slug);
+  const project = await getProjectBySlug(slug);
 
   return project
     ? { title: project.title, description: project.summary }
@@ -50,7 +49,7 @@ export default async function ProjectDetailPage({
   params,
 }: ProjectDetailPageProps) {
   const { slug } = await params;
-  const project = projects.find((item) => item.slug === slug);
+  const project = await getProjectBySlug(slug);
 
   if (!project) {
     notFound();
@@ -65,9 +64,7 @@ export default async function ProjectDetailPage({
     : sectionLinks;
 
   return (
-    <main className={`project-case-page project-case-page-${project.slug}`}>
-      <AmbientBackground />
-
+    <PageShell className={`project-case-page project-case-page-${project.slug}`}>
       <div className="project-case-layout">
         <aside className="project-case-sidebar">
           <Link className="project-case-list-link project-preview-detail-link" href="/projects">
@@ -139,10 +136,11 @@ export default async function ProjectDetailPage({
 
           <section className="project-case-section project-case-overview">
             <h2>개요</h2>
-            <p>{project.summary}</p>
+            <p>{project.overview ?? project.summary}</p>
             <p>
               {projectTypeLabel[project.type]}로 {project.period} 동안 진행했으며, {project.role}을 담당했습니다.
             </p>
+            {project.learningTopic && <p>학습 주제: {project.learningTopic}</p>}
 
             {project.thumbnail && project.lightThumbnail ? (
               <div className="project-case-theme-previews">
@@ -268,6 +266,6 @@ export default async function ProjectDetailPage({
           </section>
         </article>
       </div>
-    </main>
+    </PageShell>
   );
 }

@@ -2,18 +2,51 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { type KeyboardEvent, useState } from 'react'
+import { type KeyboardEvent, useEffect, useState } from 'react'
 
-import { projects } from '@/data/projects'
 import { projectTypeLabel } from '@/lib/project-labels'
+import type { Project } from '@/types/project'
 
-export default function ProjectsPanel() {
-  const [selectedSlug, setSelectedSlug] = useState(projects[0].slug)
-  const selectedIndex = Math.max(
-    projects.findIndex((project) => project.slug === selectedSlug),
-    0,
-  )
+type ProjectsPanelProps = {
+  projects: Project[]
+}
+
+export default function ProjectsPanel({ projects: initialProjects }: ProjectsPanelProps) {
+  const [projects, setProjects] = useState(initialProjects)
+  const [selectedSlug, setSelectedSlug] = useState(initialProjects[0]?.slug ?? '')
+  const matchedIndex = projects.findIndex((project) => project.slug === selectedSlug)
+  const selectedIndex = matchedIndex >= 0 ? matchedIndex : 0
   const selectedProject = projects[selectedIndex]
+
+  useEffect(() => {
+    const controller = new AbortController()
+
+    async function loadStoredProjects() {
+      try {
+        const response = await fetch('/api/projects', {
+          cache: 'no-store',
+          signal: controller.signal,
+        })
+        if (!response.ok) return
+
+        const data = (await response.json()) as { projects?: Project[] }
+        if (data.projects?.length) setProjects(data.projects)
+      } catch {
+        // The bundled project list remains usable during a database outage.
+      }
+    }
+
+    void loadStoredProjects()
+    return () => controller.abort()
+  }, [])
+
+  if (!selectedProject) {
+    return (
+      <section className="glass-surface projects-panel projects-panel-empty">
+        <p>등록된 프로젝트가 없습니다.</p>
+      </section>
+    )
+  }
 
   function handleTabKeyDown(event: KeyboardEvent<HTMLButtonElement>) {
     if (!['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {

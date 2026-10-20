@@ -1,11 +1,10 @@
 import GuestbookBoard from "@/components/guestbook/GuestbookBoard";
-import AmbientBackground from "@/components/layout/AmbientBackground";
+import PageShell from "@/components/layout/PageShell";
 
 export default function GuestbookPage() {
   return (
-    <main className="guestbook-page">
-      <AmbientBackground />
+    <PageShell className="guestbook-page">
       <GuestbookBoard />
-    </main>
+    </PageShell>
   );
 }

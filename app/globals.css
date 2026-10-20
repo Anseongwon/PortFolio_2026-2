@@ -108,7 +108,7 @@ h3,
 .nav-link,
 .home-title {
   font-family:
-    var(--font-space-grotesk),
+    var(--font-pretendard),
     var(--font-pretendard),
     sans-serif;
 }
@@ -1013,6 +1013,54 @@ button.contact-dock-item {
   .footer-inner {
     padding: 24px 0;
     align-items: center;
+  }
+}
+
+/* Immediate route feedback while an uncached segment is streaming. */
+.route-loading-page {
+  position: relative;
+  min-height: calc(100vh - 146px);
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+}
+
+.route-loading-card {
+  position: relative;
+  z-index: 1;
+  min-width: min(320px, calc(100vw - 40px));
+  padding: 28px;
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--text);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+}
+
+.route-loading-spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: route-loading-spin 700ms linear infinite;
+}
+
+.route-loading-card strong {
+  font-size: 0.88rem;
+}
+
+@keyframes route-loading-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-loading-spinner {
+    animation: none;
   }
 }
 
@@ -3911,7 +3959,7 @@ body:has(.project-case-page) {
   border-radius: 50%;
   color: #285dc7;
   background: #dceaff;
-  font-family: var(--font-space-grotesk), sans-serif;
+  font-family: var(--font-pretendard), sans-serif;
   font-weight: 750;
 }
 
@@ -4240,7 +4288,7 @@ body:has(.project-case-page) {
 .guestbook-modal > header p {
   margin: 0 0 2px;
   color: var(--accent);
-  font-family: var(--font-space-grotesk), sans-serif;
+  font-family: var(--font-pretendard), sans-serif;
   font-size: 0.67rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -5039,4 +5087,299 @@ body .site-content .home-ambient-orb {
 [data-theme="dark"] body .site-content .home-ambient {
   background-color: var(--background) !important;
   filter: blur(1px) brightness(0.22) saturate(0.45);
+}
+
+/* Project creation: scoped so the existing project cards keep their visual rules. */
+.projects-page-toolbar {
+  position: relative;
+  z-index: 2;
+}
+
+.projects-page-toolbar .projects-page-heading {
+  padding-inline: 150px;
+}
+
+.project-create-open-button {
+  position: absolute;
+  right: 18px;
+  bottom: 0;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  color: var(--text);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  box-shadow: none;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 750;
+  cursor: pointer;
+  transition: border-color 160ms ease, color 160ms ease, background-color 160ms ease;
+}
+
+.project-create-open-button span {
+  font-size: 1.65rem;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.project-create-open-button:hover,
+.project-create-open-button:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+  outline: none;
+}
+
+.project-create-overlay {
+  position: fixed;
+  z-index: 2147483647;
+  inset: 0;
+  padding: 28px;
+  display: grid;
+  place-items: center;
+  background: rgb(8 13 22 / 54%);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+
+.project-create-modal {
+  width: min(820px, 100%);
+  max-height: min(900px, calc(100vh - 56px));
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  color: var(--text);
+  background: var(--surface);
+  box-shadow: 0 24px 80px rgb(0 0 0 / 28%);
+  overscroll-behavior: contain;
+}
+
+.project-create-modal > header {
+  position: sticky;
+  z-index: 2;
+  top: 0;
+  padding: 22px 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.project-create-modal > header h2 {
+  margin: 0;
+  font-size: 1.45rem;
+  letter-spacing: -0.035em;
+}
+
+.project-create-modal > header button {
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--text);
+  background: transparent;
+  font-size: 1.55rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.project-create-modal form {
+  padding: 4px 26px 26px;
+}
+
+.project-create-modal fieldset {
+  margin: 0;
+  padding: 24px 0;
+  display: grid;
+  gap: 16px;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.project-create-modal legend {
+  padding: 0;
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.project-create-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.project-create-modal label {
+  min-width: 0;
+  display: grid;
+  gap: 7px;
+  color: var(--text);
+  font-size: 0.83rem;
+  font-weight: 700;
+}
+
+.project-create-modal label > span {
+  color: #e45b68;
+}
+
+.project-create-modal input,
+.project-create-modal select,
+.project-create-modal textarea {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  color: var(--text);
+  background: color-mix(in srgb, var(--surface) 94%, var(--background));
+  font: inherit;
+  font-weight: 500;
+  outline: none;
+}
+
+.project-create-modal input,
+.project-create-modal select {
+  height: 44px;
+  padding: 0 12px;
+}
+
+.project-create-modal textarea {
+  padding: 11px 12px;
+  resize: vertical;
+  line-height: 1.55;
+}
+
+.project-create-modal input:focus,
+.project-create-modal select:focus,
+.project-create-modal textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 13%, transparent);
+}
+
+.project-create-modal small {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.project-create-checkbox {
+  grid-template-columns: 18px 1fr;
+  align-items: center;
+  width: fit-content;
+}
+
+.project-create-checkbox input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.project-create-modal .project-create-auth {
+  border-bottom: 0;
+}
+
+.project-create-error {
+  margin: 0 0 18px;
+  padding: 11px 13px;
+  border: 1px solid #e9979f;
+  border-radius: 10px;
+  color: #a72936;
+  background: #fff0f2;
+  font-size: 0.82rem;
+  font-weight: 650;
+}
+
+.project-create-modal footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.project-create-modal footer button {
+  min-width: 104px;
+  min-height: 43px;
+  padding: 0 16px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  color: var(--text);
+  background: transparent;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.project-create-modal footer button[type="submit"] {
+  border-color: var(--accent);
+  color: #ffffff;
+  background: var(--accent);
+}
+
+.project-create-modal footer button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.projects-panel-empty {
+  display: grid;
+  place-items: center;
+}
+
+.projects-panel-empty p {
+  margin: 0;
+  color: var(--muted);
+}
+
+[data-theme="dark"] .project-create-modal,
+[data-theme="dark"] .project-create-modal > header {
+  background: var(--background);
+}
+
+[data-theme="dark"] .project-create-modal input,
+[data-theme="dark"] .project-create-modal select,
+[data-theme="dark"] .project-create-modal textarea {
+  background: #242830;
+}
+
+[data-theme="dark"] .project-create-error {
+  color: #ffbbc2;
+  background: #3a2025;
+}
+
+@media (max-width: 760px) {
+  .projects-page-toolbar .projects-page-heading {
+    padding-inline: 0;
+    padding-bottom: 52px;
+  }
+
+  .project-create-open-button {
+    right: 50%;
+    transform: translateX(50%);
+  }
+
+  .project-create-overlay {
+    padding: 10px;
+  }
+
+  .project-create-modal {
+    max-height: calc(100vh - 20px);
+    border-radius: 18px;
+  }
+
+  .project-create-modal > header,
+  .project-create-modal form {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+
+  .project-create-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }

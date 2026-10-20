@@ -1,57 +1,51 @@
 import { GUESTBOOK_LIMITS, GUESTBOOK_TAGS } from "@/data/guestbook";
-import { assignGuestbookAppearance } from "@/lib/guestbook-appearance";
-import { cleanText, parseTags, serializeGuestbookMessage } from "@/lib/guestbook-helpers";
-import { connectToDatabase } from "@/lib/mongodb";
-import GuestbookMessage from "@/models/GuestbookMessage";
+import {
+  createGuestbookMessage,
+  getGuestbookMessages,
+} from "@/lib/guestbook";
+import { cleanText, parseTags } from "@/lib/guestbook-helpers";
+import { isDatabaseUnavailableError } from "@/lib/mongodb";
+import type { GuestbookSort, GuestbookTag } from "@/types/guestbook";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+function databaseErrorResponse(error: unknown) {
+  if (isDatabaseUnavailableError(error)) {
+    return Response.json(
+      { message: "데이터베이스에 연결할 수 없습니다. 잠시 후 다시 시도해주세요." },
+      { status: 503 },
+    );
+  }
+
+  return null;
+}
+
 export async function GET(request: Request) {
   try {
-    const connection = await connectToDatabase();
-    if (!connection) {
-      return Response.json({ message: "MongoDB 연결 정보가 없습니다." }, { status: 503 });
-    }
-
     const searchParams = new URL(request.url).searchParams;
     const sortParam = searchParams.get("sort");
-    const sort = sortParam === "oldest" ? 1 : -1;
-    const tag = searchParams.get("tag");
+    const sort: GuestbookSort =
+      sortParam === "oldest" || sortParam === "favorite"
+        ? sortParam
+        : "latest";
+    const tagParam = searchParams.get("tag");
+    const tag =
+      tagParam && GUESTBOOK_TAGS.includes(tagParam as GuestbookTag)
+        ? (tagParam as GuestbookTag)
+        : undefined;
     const query = cleanText(searchParams.get("q")).slice(0, 60);
-    const filter: Record<string, unknown> = {};
 
-    if (sortParam === "favorite") {
-      filter.isFavorite = true;
-    }
-
-    if (tag && GUESTBOOK_TAGS.includes(tag as (typeof GUESTBOOK_TAGS)[number])) {
-      filter.tags = tag;
-    }
-
-    if (query) {
-      const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      filter.$or = [
-        { nickname: { $regex: escaped, $options: "i" } },
-        { content: { $regex: escaped, $options: "i" } },
-      ];
-    }
-
-    const [messages, total] = await Promise.all([
-      GuestbookMessage.find(filter).sort({ isPinned: -1, createdAt: sort }).lean(),
-      GuestbookMessage.countDocuments({}),
-    ]);
-
-    return Response.json({
-      messages: messages.map((message) =>
-        serializeGuestbookMessage(message as unknown as Record<string, unknown>),
-      ),
-      total,
-    });
-  } catch {
     return Response.json(
-      { message: "방명록을 불러오지 못했습니다. 잠시 후 다시 시도해주세요." },
-      { status: 500 },
+      await getGuestbookMessages({ sort, tag, query }),
+    );
+  } catch (error) {
+    return (
+      databaseErrorResponse(error) ??
+      Response.json(
+        { message: "방명록을 불러오지 못했습니다. 잠시 후 다시 시도해주세요." },
+        { status: 500 },
+      )
     );
   }
 }
@@ -77,21 +71,15 @@ export async function POST(request: Request) {
       );
     }
 
-    const connection = await connectToDatabase();
-    if (!connection) {
-      return Response.json({ message: "MongoDB 연결 정보가 없습니다." }, { status: 503 });
-    }
-
-    const appearance = await assignGuestbookAppearance();
-    const message = await GuestbookMessage.create({ nickname, content, tags, ...appearance });
-    return Response.json(
-      { message: serializeGuestbookMessage(message.toObject()) },
-      { status: 201 },
-    );
-  } catch {
-    return Response.json(
-      { message: "메시지를 저장하지 못했습니다. 잠시 후 다시 시도해주세요." },
-      { status: 500 },
+    const message = await createGuestbookMessage({ nickname, content, tags });
+    return Response.json({ message }, { status: 201 });
+  } catch (error) {
+    return (
+      databaseErrorResponse(error) ??
+      Response.json(
+        { message: "메시지를 저장하지 못했습니다. 잠시 후 다시 시도해주세요." },
+        { status: 500 },
+      )
     );
   }
 }

@@ -1,17 +1,10 @@
 import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google";
 import localFont from "next/font/local";
 import type { ReactNode } from "react";
 
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import "./globals.css";
-
-const spaceGrotesk = Space_Grotesk({
-  display: "swap",
-  subsets: ["latin"],
-  variable: "--font-space-grotesk",
-});
 
 const pretendard = localFont({
   display: "swap",
@@ -45,7 +38,7 @@ const themeScript = `
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html
-      className={`${spaceGrotesk.variable} ${pretendard.variable}`}
+      className={pretendard.variable}
       lang="ko"
       suppressHydrationWarning
     >

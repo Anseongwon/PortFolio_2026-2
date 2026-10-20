@@ -124,13 +124,23 @@ const questions = [
 type ImpressionOption = { key: string; label: string; votes: number };
 type ImpressionResponse = { options: ImpressionOption[]; total: number; message?: string };
 
+type AboutExperienceProps = {
+  initialImpressions?: ImpressionOption[];
+  initialTotalVotes?: number;
+  initialLoadSucceeded?: boolean;
+};
+
 const voteStorageKey = "about-first-impression-v1";
 
-export default function AboutExperience() {
+export default function AboutExperience({
+  initialImpressions = [],
+  initialTotalVotes = 0,
+  initialLoadSucceeded = false,
+}: AboutExperienceProps) {
   const timelineRef = useRef<HTMLDivElement>(null);
   const [activeJourney, setActiveJourney] = useState(0);
-  const [impressions, setImpressions] = useState<ImpressionOption[]>([]);
-  const [totalVotes, setTotalVotes] = useState(0);
+  const [impressions, setImpressions] = useState<ImpressionOption[]>(initialImpressions);
+  const [totalVotes, setTotalVotes] = useState(initialTotalVotes);
   const [selectedImpression, setSelectedImpression] = useState("");
   const [votedImpression, setVotedImpression] = useState("");
   const [votePending, setVotePending] = useState(false);
@@ -162,12 +172,12 @@ export default function AboutExperience() {
       }
     }
 
-    void loadImpressions();
+    if (!initialLoadSucceeded) void loadImpressions();
     return () => {
       controller.abort();
       window.clearTimeout(storageTimeoutId);
     };
-  }, []);
+  }, [initialLoadSucceeded]);
 
   function focusJourney(index: number) {
     const safeIndex = Math.min(Math.max(index, 0), journeyItems.length - 1);

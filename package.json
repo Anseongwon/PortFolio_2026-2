@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "db:check": "node scripts/check-mongodb.mjs",
     "seed:guestbook-colors": "node scripts/seed-guestbook-room-colors.mjs",
     "seed:guestbook-profiles": "node scripts/seed-guestbook-profiles.mjs"
   },

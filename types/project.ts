@@ -6,7 +6,9 @@ export type Project = {
   status: "completed" | "in-progress";
   startedAt: string;
   period: string;
+  learningTopic?: string;
   role: string;
+  overview?: string;
   techStack: string[];
   features: string[];
   learnings?: string;

@@ -1,17 +1,18 @@
-import AmbientBackground from '@/components/layout/AmbientBackground'
+import PageHeading from '@/components/layout/PageHeading'
+import PageShell from '@/components/layout/PageShell'
+import ProjectCreateButton from '@/components/projects/ProjectCreateButton'
 import ProjectsPanel from '@/components/projects/ProjectsPanel'
+import { projects } from '@/data/projects'
 
 export default function ProjectsPage() {
   return (
-    <main className="projects-page">
-      <AmbientBackground />
+    <PageShell className="projects-page">
+      <div className="projects-page-toolbar">
+        <PageHeading description="지금까지 진행한 프로젝트" title="Projects" />
+        <ProjectCreateButton />
+      </div>
 
-      <header className="projects-page-heading">
-        <h1>Projects</h1>
-        <p>지금까지 진행한 프로젝트</p>
-      </header>
-
-      <ProjectsPanel />
-    </main>
+      <ProjectsPanel projects={projects} />
+    </PageShell>
   )
 }

@@ -6,6 +6,7 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 
@@ -17,6 +18,12 @@ import type {
 } from "@/types/guestbook";
 
 type ApiError = { message?: string };
+
+type GuestbookBoardProps = {
+  initialMessages?: GuestbookMessage[];
+  initialTotal?: number;
+  initialLoadSucceeded?: boolean;
+};
 
 function formatDate(value: string, includeTime = false) {
   return new Intl.DateTimeFormat("ko-KR", {
@@ -126,20 +133,25 @@ function PinIcon({ active = false }: { active?: boolean }) {
   );
 }
 
-export default function GuestbookBoard() {
-  const [messages, setMessages] = useState<GuestbookMessage[]>([]);
-  const [total, setTotal] = useState(0);
-  const [selectedId, setSelectedId] = useState("");
+export default function GuestbookBoard({
+  initialMessages = [],
+  initialTotal = 0,
+  initialLoadSucceeded = false,
+}: GuestbookBoardProps) {
+  const [messages, setMessages] = useState<GuestbookMessage[]>(initialMessages);
+  const [total, setTotal] = useState(initialTotal);
+  const [selectedId, setSelectedId] = useState(initialMessages[0]?._id ?? "");
   const [sort, setSort] = useState<GuestbookSort>("latest");
   const [activeTag, setActiveTag] = useState<GuestbookTag | "all">("all");
   const [search, setSearch] = useState("");
   const [searchInput, setSearchInput] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!initialLoadSucceeded);
   const [error, setError] = useState("");
   const [isComposerOpen, setIsComposerOpen] = useState(false);
   const [isAdminDialogOpen, setIsAdminDialogOpen] = useState(false);
   const [adminKey, setAdminKey] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+  const skipInitialLoadRef = useRef(initialLoadSucceeded);
 
   const selectedMessage = useMemo(
     () => messages.find((message) => message._id === selectedId) ?? messages[0],
@@ -172,6 +184,11 @@ export default function GuestbookBoard() {
   }, [activeTag, search, sort]);
 
   useEffect(() => {
+    if (skipInitialLoadRef.current) {
+      skipInitialLoadRef.current = false;
+      return;
+    }
+
     const timeoutId = window.setTimeout(() => void loadMessages(), 0);
     return () => window.clearTimeout(timeoutId);
   }, [loadMessages]);
